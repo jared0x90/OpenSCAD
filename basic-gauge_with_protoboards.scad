@@ -6,18 +6,22 @@ gauge_wall_thickness = 2;
 gauge_body_depth = 25;
 
 
-// gauge body
+// gauge base
+union () {
+    // gauge body
+    difference() {
+        cylinder(d=gauge_body_diameter, h=gauge_body_depth);
+        translate([0,0,gauge_wall_thickness])cylinder(d=gauge_body_diameter - gauge_wall_thickness, h=gauge_body_depth);
+    }
 
-difference() {
-    cylinder(d=gauge_body_diameter, h=gauge_body_depth);
-    translate([0,0,gauge_wall_thickness])cylinder(d=gauge_body_diameter - gauge_wall_thickness, h=gauge_body_depth);
+    // gauge lip
+    translate ([0,0,gauge_body_depth - gauge_wall_thickness]) 
+        rotate_extrude()
+            translate([gauge_body_diameter / 2 - gauge_wall_thickness / 2 , 0])
+                square(4);   
+        
 }
 
-// gauge face
-translate ([0,0,gauge_body_depth - gauge_wall_thickness]) 
-    rotate_extrude()
-        translate([gauge_body_diameter / 2 - gauge_wall_thickness / 2 , 0])
-            square(4);
 
 
 // node mcu board
